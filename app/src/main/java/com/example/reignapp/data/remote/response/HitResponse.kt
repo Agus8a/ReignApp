@@ -2,7 +2,7 @@ package com.example.reignapp.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-data class Hit(
+data class HitResponse(
     @SerializedName("created_at") val createdString: String,
     @SerializedName("title") val title: String,
     @SerializedName("url") val url: String,
@@ -18,6 +18,6 @@ data class Hit(
     @SerializedName("created_at_i") val created: Int,
     @SerializedName("_tags") val listTags: List<String>,
     @SerializedName("objectID") val objectId: Int,
-    @SerializedName("_highlightResult") val highlightResult: HighlightResult
+    @SerializedName("_highlightResult") val highlightResult: HighlightResultResponse
 )
 

@@ -3,7 +3,7 @@ package com.example.reignapp.data.remote.response
 import com.google.gson.annotations.SerializedName
 
 data class HackerNewsResponse(
-    @SerializedName("hits") val hits: List<Hit> = listOf(),
+    @SerializedName("hits") val hits: List<HitResponse> = listOf(),
     @SerializedName("nbHits") val nbHits: Int = 0,
     @SerializedName("page") val page: Int = 0,
     @SerializedName("nbPages") val nbPages: Int = 0,
