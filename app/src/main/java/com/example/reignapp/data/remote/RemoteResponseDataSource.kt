@@ -28,35 +28,37 @@ class RemoteResponseDataSource(
 
         hackerNewsResponse.hits.takeIf { !it.isNullOrEmpty() }?.forEach {
             val currentHit = hitResponseToEntity.map(it)
-            val currentAuthor: AuthorEntity
-            val currentComment: CommentTextEntity
-            val currentStoryTitle: StoryTitleEntity
-            val currentStoryUrl: StoryUrlEntity
+            if (currentHit.title != null || currentHit.storyTitle != null) {
+                val currentAuthor: AuthorEntity
+                val currentComment: CommentTextEntity
+                val currentStoryTitle: StoryTitleEntity
+                val currentStoryUrl: StoryUrlEntity
 
-            val hitIndex = localDataSource.saveHit(currentHit)
-            if (it.highlightResult.author != null) {
-                currentAuthor =
-                    authorResponseToEntity.map(it.highlightResult.author)
-                currentAuthor.hitId = hitIndex
-                localDataSource.saveAuthor(currentAuthor)
-            }
-            if (it.highlightResult.commentText != null) {
-                currentComment =
-                    commentTextResponseToEntity.map(it.highlightResult.commentText)
-                currentComment.hitId = hitIndex
-                localDataSource.saveComment(currentComment)
-            }
-            if (it.highlightResult.storyTitle != null) {
-                currentStoryTitle =
-                    storyTitleResponseToEntity.map(it.highlightResult.storyTitle)
-                currentStoryTitle.hitId = hitIndex
-                localDataSource.saveStoryTitle(currentStoryTitle)
-            }
-            if (it.highlightResult.storyUrl != null) {
-                currentStoryUrl =
-                    storyUrlResponseToEntity.map(it.highlightResult.storyUrl)
-                currentStoryUrl.hitId = hitIndex
-                localDataSource.saveStoryUrl(currentStoryUrl)
+                val hitIndex = localDataSource.saveHit(currentHit)
+                if (it.highlightResult.author != null) {
+                    currentAuthor =
+                        authorResponseToEntity.map(it.highlightResult.author)
+                    currentAuthor.hitId = hitIndex
+                    localDataSource.saveAuthor(currentAuthor)
+                }
+                if (it.highlightResult.commentText != null) {
+                    currentComment =
+                        commentTextResponseToEntity.map(it.highlightResult.commentText)
+                    currentComment.hitId = hitIndex
+                    localDataSource.saveComment(currentComment)
+                }
+                if (it.highlightResult.storyTitle != null) {
+                    currentStoryTitle =
+                        storyTitleResponseToEntity.map(it.highlightResult.storyTitle)
+                    currentStoryTitle.hitId = hitIndex
+                    localDataSource.saveStoryTitle(currentStoryTitle)
+                }
+                if (it.highlightResult.storyUrl != null) {
+                    currentStoryUrl =
+                        storyUrlResponseToEntity.map(it.highlightResult.storyUrl)
+                    currentStoryUrl.hitId = hitIndex
+                    localDataSource.saveStoryUrl(currentStoryUrl)
+                }
             }
         }
     }
