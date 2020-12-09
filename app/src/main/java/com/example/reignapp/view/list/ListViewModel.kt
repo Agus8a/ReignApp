@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 class ListViewModel(
     private val repository: HitRepository
 ) : ViewModel() {
-    private var hits = MutableLiveData<List<Hit>>()
+    var hits = MutableLiveData<List<Hit>>()
 
     init {
         viewModelScope.launch {
