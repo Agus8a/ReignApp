@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class HitResponse(
     @SerializedName("created_at") val createdString: String,
-    @SerializedName("title") val title: String,
+    @SerializedName("title") val title: String? = "",
     @SerializedName("url") val url: String,
     @SerializedName("author") val author: String,
     @SerializedName("points") val points: String,
@@ -15,7 +15,7 @@ data class HitResponse(
     @SerializedName("story_title") val storyTitle: String,
     @SerializedName("story_url") val storyUrl: String,
     @SerializedName("parent_id") val parentId: Int,
-    @SerializedName("created_at_i") val created: Int,
+    @SerializedName("created_at_i") val created: Long,
     @SerializedName("_tags") val listTags: List<String>,
     @SerializedName("objectID") val objectId: Int,
     @SerializedName("_highlightResult") val highlightResult: HighlightResultResponse

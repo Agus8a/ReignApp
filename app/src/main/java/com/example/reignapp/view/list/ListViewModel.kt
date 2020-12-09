@@ -1,13 +1,31 @@
 package com.example.reignapp.view.list
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.reignapp.data.RemoteDataSource
+import androidx.lifecycle.viewModelScope
+import com.example.reignapp.data.HitRepository
+import com.example.reignapp.data.model.Hit
+import kotlinx.coroutines.launch
 
 class ListViewModel(
-    private val remoteDataSource: RemoteDataSource
+    private val repository: HitRepository
 ) : ViewModel() {
-    suspend fun getNews() {
-        remoteDataSource.getNews()
+    private var hits = MutableLiveData<List<Hit>>()
+
+    init {
+        viewModelScope.launch {
+            getHits()
+        }
+    }
+
+    fun getHits() {
+        viewModelScope.launch {
+            getHitsFromDb()
+        }
+    }
+
+    private suspend fun getHitsFromDb() {
+        hits.value = repository.getHits()
     }
 
 }

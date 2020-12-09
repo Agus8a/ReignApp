@@ -8,12 +8,13 @@ import com.example.reignapp.data.entity.*
 import com.example.reignapp.data.local.db.dao.*
 
 @Database(
-        entities = [HitEntity::class, AuthorEntity::class, CommentTextEntity::class, StoryTitleEntity::class, StoryUrlEntity::class],
-        version = 1,
-        exportSchema = false
+    entities = [HitEntity::class, AuthorEntity::class, CommentTextEntity::class,
+        StoryTitleEntity::class, StoryUrlEntity::class],
+    version = 1,
+    exportSchema = false
 )
 abstract class ReignDatabase : RoomDatabase() {
-    abstract fun hitDao(): HitDao
+    abstract fun HitDao(): HitDao
     abstract fun AuthorDao(): AuthorDao
     abstract fun CommentTextDao(): CommentTextDao
     abstract fun StoryTitleDao(): StoryTitleDao

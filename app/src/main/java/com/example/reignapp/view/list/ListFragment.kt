@@ -3,10 +3,8 @@ package com.example.reignapp.view.list
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import androidx.lifecycle.lifecycleScope
 import com.example.reignapp.R
 import com.example.reignapp.core.BaseFragment
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class ListFragment : BaseFragment<ListViewModel>() {
@@ -23,8 +21,7 @@ class ListFragment : BaseFragment<ListViewModel>() {
     }
 
     private fun getHit() {
-        lifecycleScope.launch {
-            viewModel.getNews()
-        }
+        viewModel.getHits()
     }
+
 }
