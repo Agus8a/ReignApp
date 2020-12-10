@@ -46,5 +46,11 @@ fun Hit.getAuthorAndDate(context: Context): String {
             }
             else -> context.getString(R.string.days_ago)
         }
-    return this.author + " - " + hoursPassed
+
+    val author = if (this.author.isNullOrEmpty()) {
+        context.getString(R.string.anonymous)
+    } else {
+        this.author
+    }
+    return "$author - $hoursPassed"
 }

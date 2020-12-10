@@ -26,9 +26,15 @@ class RemoteResponseDataSource(
         }
         localDataSource.deleteOldData()
 
+        val storyIds = ArrayList<Int>()
+
         hackerNewsResponse.hits.takeIf { !it.isNullOrEmpty() }?.forEach {
             val currentHit = hitResponseToEntity.map(it)
-            if (currentHit.title != null || currentHit.storyTitle != null) {
+            if (currentHit.title != null ||
+                currentHit.storyTitle != null &&
+                !storyIds.contains(currentHit.storyId)
+            ) {
+                storyIds.add(currentHit.storyId)
                 val currentAuthor: AuthorEntity
                 val currentComment: CommentTextEntity
                 val currentStoryTitle: StoryTitleEntity

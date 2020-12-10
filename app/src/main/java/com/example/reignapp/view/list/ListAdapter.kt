@@ -7,13 +7,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.reignapp.R
+import com.example.reignapp.core.BaseOnSelectItem
 import com.example.reignapp.data.model.Hit
 import com.example.reignapp.util.getAuthorAndDate
 import com.example.reignapp.util.getTitle
 import kotlinx.android.synthetic.main.view_list_item.view.*
 
 class ListAdapter(
-    private val context: Context
+    private val context: Context,
+    private val onSelectItem: BaseOnSelectItem<Hit>
 ) : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 
     private var listHits: List<Hit> = listOf()
@@ -26,6 +28,9 @@ class ListAdapter(
         )
 
         val holder = ViewHolder(view)
+        holder.itemView.setOnClickListener {
+            onSelectItem.onSelectItem(listHits[holder.adapterPosition])
+        }
         return holder
     }
 
@@ -47,5 +52,4 @@ class ListAdapter(
         val title: TextView = view.view_list_item_title
         val author: TextView = view.view_list_item_author
     }
-
 }
