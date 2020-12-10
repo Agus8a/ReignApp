@@ -8,18 +8,20 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.reignapp.R
 import com.example.reignapp.core.BaseFragment
-import com.example.reignapp.core.BaseOnSelectItem
+import com.example.reignapp.core.BaseOnTriggerItem
 import com.example.reignapp.data.model.Hit
 import com.example.reignapp.util.KEY_ARGS_STORY_URL
 import kotlinx.android.synthetic.main.fragment_list.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
-class ListFragment : BaseFragment<ListViewModel>(), BaseOnSelectItem<Hit> {
+class ListFragment : BaseFragment<ListViewModel>(), BaseOnTriggerItem<Hit> {
 
     private lateinit var listAdapter: ListAdapter
+    private lateinit var itemTouchHelper: ItemTouchHelper
 
     override fun getLayoutResource(): Int = R.layout.fragment_list
 
@@ -41,10 +43,10 @@ class ListFragment : BaseFragment<ListViewModel>(), BaseOnSelectItem<Hit> {
         fragment_list_recycler_view.apply {
             setHasFixedSize(true)
             addItemDecoration(
-                DividerItemDecoration(
-                    requireContext(),
-                    LinearLayoutManager.VERTICAL
-                )
+                    DividerItemDecoration(
+                            requireContext(),
+                            LinearLayoutManager.VERTICAL
+                    )
             )
             layoutManager = LinearLayoutManager(requireContext())
             adapter = listAdapter
@@ -53,6 +55,8 @@ class ListFragment : BaseFragment<ListViewModel>(), BaseOnSelectItem<Hit> {
             fragment_list_swipe_refresh.isRefreshing = false
             getHits()
         }
+        itemTouchHelper = ItemTouchHelper(listAdapter.SwipeToDeleteCallback())
+        itemTouchHelper.attachToRecyclerView(fragment_list_recycler_view)
     }
 
     private fun updateList(hits: List<Hit>) {
@@ -77,6 +81,12 @@ class ListFragment : BaseFragment<ListViewModel>(), BaseOnSelectItem<Hit> {
                 R.id.navigation_action_list_to_detail,
                 bundle
         )
+    }
+
+    override fun onDeleteItem(listItems: MutableList<Hit>, itemPosition: Int) {
+        listItems.removeAt(itemPosition)
+        updateList(listItems)
+        toastMsg(getString(R.string.post_deleted))
     }
 
 }

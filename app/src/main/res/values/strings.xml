@@ -8,4 +8,5 @@
     <string name="days_ago">Days ago</string>
     <string name="min">min</string>
     <string name="anonymous">Anonymous</string>
+    <string name="post_deleted">Post deleted!</string>
 </resources>

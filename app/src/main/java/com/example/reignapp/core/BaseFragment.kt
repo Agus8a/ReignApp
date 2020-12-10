@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 
@@ -14,13 +15,19 @@ abstract class BaseFragment<VM : ViewModel> : Fragment() {
     private var progressBar: ProgressBar? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(getLayoutResource(), container, false)
         viewModel = initViewModel()
         return view
+    }
+
+    fun toastMsg(msg: String = "") {
+        if (msg.isNotBlank()) {
+            Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+        }
     }
 
     abstract fun getLayoutResource(): Int
