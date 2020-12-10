@@ -10,12 +10,12 @@
         android:name="com.example.reignapp.view.list.ListFragment"
         tools:layout="@layout/fragment_list">
         <action
-            android:id="@+id/navigation_action_list_to_web_view"
-            app:destination="@id/navigation_fragment_web_view" />
+            android:id="@+id/navigation_action_list_to_detail"
+            app:destination="@id/navigation_fragment_detail" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_fragment_web_view"
-        android:name="com.example.reignapp.view.webview.WebViewFragment"
-        tools:layout="@layout/fragment_web_view" />
+        android:id="@+id/navigation_fragment_detail"
+        android:name="com.example.reignapp.view.detail.DetailFragment"
+        tools:layout="@layout/fragment_detail" />
 </navigation>

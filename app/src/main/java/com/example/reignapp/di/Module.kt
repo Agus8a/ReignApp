@@ -9,9 +9,9 @@ import com.example.reignapp.data.mapper.*
 import com.example.reignapp.data.remote.ApiProvider
 import com.example.reignapp.data.remote.RemoteResponseDataSource
 import com.example.reignapp.data.repository.HitRepositoryImpl
+import com.example.reignapp.view.detail.DetailViewModel
 import com.example.reignapp.view.list.ListViewModel
 import com.example.reignapp.view.main.MainViewModel
-import com.example.reignapp.view.webview.WebViewViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -19,7 +19,7 @@ import org.koin.dsl.module
 val appModule = module {
     viewModel { MainViewModel() }
     viewModel { ListViewModel(get()) }
-    viewModel { WebViewViewModel() }
+    viewModel { DetailViewModel() }
 
     single<LocalDataSource> { LocalHitDataSource(get()) }
     single<RemoteDataSource> {

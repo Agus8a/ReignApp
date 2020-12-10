@@ -4,14 +4,16 @@ import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.reignapp.R
 import com.example.reignapp.core.BaseFragment
 import com.example.reignapp.core.BaseOnSelectItem
 import com.example.reignapp.data.model.Hit
+import com.example.reignapp.util.KEY_ARGS_STORY_URL
 import kotlinx.android.synthetic.main.fragment_list.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -66,7 +68,15 @@ class ListFragment : BaseFragment<ListViewModel>(), BaseOnSelectItem<Hit> {
     }
 
     override fun onSelectItem(item: Hit) {
-        Toast.makeText(requireContext(), item.author, Toast.LENGTH_SHORT).show()
+        val bundle = bundleOf()
+        bundle.putString(
+                KEY_ARGS_STORY_URL,
+                item.storyUrl
+        )
+        findNavController().navigate(
+                R.id.navigation_action_list_to_detail,
+                bundle
+        )
     }
 
 }

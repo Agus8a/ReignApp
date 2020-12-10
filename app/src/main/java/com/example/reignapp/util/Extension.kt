@@ -2,6 +2,7 @@ package com.example.reignapp.util
 
 import android.content.Context
 import android.text.TextUtils
+import androidx.fragment.app.Fragment
 import com.example.reignapp.R
 import com.example.reignapp.data.model.Hit
 import java.util.*
@@ -54,3 +55,14 @@ fun Hit.getAuthorAndDate(context: Context): String {
     }
     return "$author - $hoursPassed"
 }
+
+fun Fragment.receiveSafeString(key: String): String =
+        try {
+            if (this.requireArguments().containsKey(key)) {
+                this.requireArguments().getString(key) ?: ""
+            } else {
+                ""
+            }
+        } catch (e: Exception) {
+            ""
+        }
