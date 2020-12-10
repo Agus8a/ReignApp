@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import com.example.reignapp.R
+import com.example.reignapp.data.entity.HitEntity
 import com.example.reignapp.data.model.Hit
 import java.util.*
 import kotlin.math.roundToInt
@@ -66,3 +67,9 @@ fun Fragment.receiveSafeString(key: String): String =
         } catch (e: Exception) {
             ""
         }
+
+fun HitEntity.getTitle(): String = if (this.storyTitle.isNullOrEmpty()) {
+    this.title!!
+} else {
+    this.storyTitle
+}

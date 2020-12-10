@@ -8,6 +8,7 @@ import com.example.reignapp.data.entity.StoryTitleEntity
 import com.example.reignapp.data.entity.StoryUrlEntity
 import com.example.reignapp.data.mapper.*
 import com.example.reignapp.data.remote.response.HackerNewsResponse
+import com.example.reignapp.util.getTitle
 
 class RemoteResponseDataSource(
     private val api: ApiService,
@@ -19,31 +20,33 @@ class RemoteResponseDataSource(
     private val storyUrlResponseToEntity: StoryUrlResponseToEntity
 ) : RemoteDataSource {
     override suspend fun getNews() {
-        var hackerNewsResponse = HackerNewsResponse()
+        val hackerNewsResponse: HackerNewsResponse
         try {
             hackerNewsResponse = api.getHackerNews()
         } catch (e: Exception) {
+            return
         }
-        localDataSource.deleteOldData()
 
-        val storyIds = ArrayList<Int>()
+        val storyTitlesFromResponse = mutableListOf<String>()
+        val storyIdsDeleted = localDataSource.getStoriesDeleted()
 
         hackerNewsResponse.hits.takeIf { !it.isNullOrEmpty() }?.forEach {
             val currentHit = hitResponseToEntity.map(it)
-            if (currentHit.title != null ||
-                currentHit.storyTitle != null &&
-                !storyIds.contains(currentHit.storyId)
-            ) {
-                storyIds.add(currentHit.storyId)
+            val title = currentHit.getTitle()
+            if (!((currentHit.title.isNullOrEmpty() && currentHit.storyTitle.isNullOrEmpty()) ||
+                            storyTitlesFromResponse.contains(title) || storyIdsDeleted.contains(title)
+                            )) {
+                storyTitlesFromResponse.add(title)
                 val currentAuthor: AuthorEntity
                 val currentComment: CommentTextEntity
                 val currentStoryTitle: StoryTitleEntity
                 val currentStoryUrl: StoryUrlEntity
 
+                currentHit.title = title
                 val hitIndex = localDataSource.saveHit(currentHit)
                 if (it.highlightResult.author != null) {
                     currentAuthor =
-                        authorResponseToEntity.map(it.highlightResult.author)
+                            authorResponseToEntity.map(it.highlightResult.author)
                     currentAuthor.hitId = hitIndex
                     localDataSource.saveAuthor(currentAuthor)
                 }

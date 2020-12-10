@@ -24,17 +24,27 @@ val appModule = module {
     single<LocalDataSource> { LocalHitDataSource(get()) }
     single<RemoteDataSource> {
         RemoteResponseDataSource(
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            get()
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get()
         )
     }
 
-    single<HitRepository> { HitRepositoryImpl(get(), get(), get(), get(), get(), get(), get()) }
+    single<HitRepository> {
+        HitRepositoryImpl(
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get())
+    }
 
     single { HitResponseToEntity() }
     single { HitEntityToModel() }
@@ -46,6 +56,7 @@ val appModule = module {
     single { StoryTitleEntityToModel() }
     single { StoryUrlResponseToEntity() }
     single { StoryUrlEntityToModel() }
+    single { HitModelToEntity() }
 
     single { ApiProvider() }
     single {

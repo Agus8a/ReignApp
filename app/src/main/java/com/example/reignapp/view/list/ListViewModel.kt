@@ -28,4 +28,14 @@ class ListViewModel(
         hits.value = repository.getHits()
     }
 
+    fun deleteHit(hit: Hit) {
+        viewModelScope.launch {
+            deleteHitFromDb(hit)
+        }
+    }
+
+    private suspend fun deleteHitFromDb(hit: Hit) {
+        repository.deleteHit(hit)
+    }
+
 }

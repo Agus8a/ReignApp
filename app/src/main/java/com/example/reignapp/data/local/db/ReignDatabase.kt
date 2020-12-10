@@ -8,10 +8,10 @@ import com.example.reignapp.data.entity.*
 import com.example.reignapp.data.local.db.dao.*
 
 @Database(
-    entities = [HitEntity::class, AuthorEntity::class, CommentTextEntity::class,
-        StoryTitleEntity::class, StoryUrlEntity::class],
-    version = 1,
-    exportSchema = false
+        entities = [HitEntity::class, AuthorEntity::class, CommentTextEntity::class,
+            StoryTitleEntity::class, StoryUrlEntity::class, HitRemovedEntity::class],
+        version = 1,
+        exportSchema = false
 )
 abstract class ReignDatabase : RoomDatabase() {
     abstract fun HitDao(): HitDao
@@ -19,6 +19,7 @@ abstract class ReignDatabase : RoomDatabase() {
     abstract fun CommentTextDao(): CommentTextDao
     abstract fun StoryTitleDao(): StoryTitleDao
     abstract fun StoryUrlDao(): StoryUrlDao
+    abstract fun HitRemovedDao(): HitRemovedDao
 
     companion object {
         private const val DATABASE_NAME = "REIGN_DATABASE"

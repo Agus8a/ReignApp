@@ -1,9 +1,6 @@
 package com.example.reignapp.data.local.db.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.reignapp.data.entity.StoryUrlEntity
 
 @Dao
@@ -13,4 +10,10 @@ interface StoryUrlDao {
 
     @Query("SELECT * FROM StoryUrlEntity")
     fun getAll(): List<StoryUrlEntity>
+
+    @Query("SELECT * FROM StoryUrlEntity WHERE hitId = :hitId")
+    fun getByHitId(hitId: Long): StoryUrlEntity?
+
+    @Delete
+    fun delete(storyUrlEntity: StoryUrlEntity)
 }

@@ -33,8 +33,8 @@ class DetailFragment : BaseFragment<DetailViewModel>() {
     }
 
     private fun hideLoading() {
-        fragment_detail_progress_bar.visibility = GONE
-        fragment_detail_web_view.visibility = VISIBLE
+        fragment_detail_progress_bar?.visibility = GONE
+        fragment_detail_web_view?.visibility = VISIBLE
     }
 
     private inner class MyWebClient : WebViewClient() {

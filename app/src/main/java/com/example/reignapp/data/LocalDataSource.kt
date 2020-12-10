@@ -14,6 +14,7 @@ interface LocalDataSource {
     suspend fun getComments(): List<CommentTextEntity>
     suspend fun getStoryUrls(): List<StoryUrlEntity>
     suspend fun getStoryTitles(): List<StoryTitleEntity>
+    suspend fun getStoriesDeleted(): List<String>
 
-    suspend fun deleteOldData()
+    suspend fun deleteHit(hitEntity: HitEntity, addRemovedEntity: Boolean = true)
 }

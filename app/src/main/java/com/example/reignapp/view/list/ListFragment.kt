@@ -84,9 +84,11 @@ class ListFragment : BaseFragment<ListViewModel>(), BaseOnTriggerItem<Hit> {
     }
 
     override fun onDeleteItem(listItems: MutableList<Hit>, itemPosition: Int) {
+        val item = listItems[itemPosition]
         listItems.removeAt(itemPosition)
         updateList(listItems)
         toastMsg(getString(R.string.post_deleted))
+        viewModel.deleteHit(item)
     }
 
 }

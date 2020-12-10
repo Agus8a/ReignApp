@@ -9,13 +9,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class HitRepositoryImpl(
-    private val remoteDataSource: RemoteDataSource,
-    private val localDataSource: LocalDataSource,
-    private val hitEntityToModel: HitEntityToModel,
-    private val commentTextEntityToModel: CommentTextEntityToModel,
-    private val authorEntityToModel: AuthorEntityToModel,
-    private val storyTitleEntityToModel: StoryTitleEntityToModel,
-    private val storyUrlEntityToModel: StoryUrlEntityToModel
+        private val remoteDataSource: RemoteDataSource,
+        private val localDataSource: LocalDataSource,
+        private val hitEntityToModel: HitEntityToModel,
+        private val commentTextEntityToModel: CommentTextEntityToModel,
+        private val authorEntityToModel: AuthorEntityToModel,
+        private val storyTitleEntityToModel: StoryTitleEntityToModel,
+        private val storyUrlEntityToModel: StoryUrlEntityToModel,
+        private val hitModelToEntity: HitModelToEntity
 ) : HitRepository {
     override suspend fun getHits(): List<Hit> {
         var hits: List<Hit> = listOf()
@@ -36,13 +37,18 @@ class HitRepositoryImpl(
         hits.takeIf { !it.isNullOrEmpty() }?.forEach {
             it.authorHighlight = authors.find { author -> author.hitId == it.id }
             it.commentTextHighlight =
-                comments.find { comment -> comment.hitId == it.id }
+                    comments.find { comment -> comment.hitId == it.id }
             it.storyTitleHighlight =
-                storyTitles.find { storyTitle -> storyTitle.hitId == it.id }
+                    storyTitles.find { storyTitle -> storyTitle.hitId == it.id }
             it.storyUrlHighlight =
-                storyUrls.find { storyUrl -> storyUrl.hitId == it.id }
+                    storyUrls.find { storyUrl -> storyUrl.hitId == it.id }
         }
-        return hits
+        return hits.sortedByDescending { it.created }
     }
 
+    override suspend fun deleteHit(hit: Hit) {
+        withContext(Dispatchers.IO) {
+            localDataSource.deleteHit(hitModelToEntity.map(hit))
+        }
+    }
 }
