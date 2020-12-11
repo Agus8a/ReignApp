@@ -11,4 +11,6 @@
     <string name="post_deleted">Post deleted!</string>
     <string name="no_internet">No Internet</string>
     <string name="back">Back</string>
+    <string name="error_msg">The page couldn\'t be loaded.</string>
+    <string name="error">Error</string>
 </resources>

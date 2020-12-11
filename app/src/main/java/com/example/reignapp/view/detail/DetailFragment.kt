@@ -7,6 +7,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.appcompat.app.AlertDialog
 import com.example.reignapp.R
 import com.example.reignapp.core.BaseFragment
 import com.example.reignapp.util.KEY_ARGS_STORY_URL
@@ -25,10 +26,14 @@ class DetailFragment : BaseFragment<DetailViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupHomeButton(true)
         urlDestination = receiveSafeString(KEY_ARGS_STORY_URL)
-        val myWebView: WebView = fragment_detail_web_view
-        myWebView.webViewClient = MyWebClient()
-        myWebView.settings.javaScriptEnabled = true
-        myWebView.loadUrl(urlDestination)
+        if (urlDestination.isEmpty()) {
+            showBackDialog()
+        } else {
+            val myWebView: WebView = fragment_detail_web_view
+            myWebView.webViewClient = MyWebClient()
+            myWebView.settings.javaScriptEnabled = true
+            myWebView.loadUrl(urlDestination)
+        }
     }
 
     private fun hideLoading() {
@@ -45,6 +50,19 @@ class DetailFragment : BaseFragment<DetailViewModel>() {
             hideLoading()
             super.onPageFinished(view, url)
         }
+    }
+
+    private fun showBackDialog() {
+        val dialog = AlertDialog.Builder(requireContext())
+                .setTitle(R.string.error)
+                .setMessage(R.string.error_msg)
+                .setPositiveButton(R.string.back) { view, _ ->
+                    requireActivity().onBackPressed()
+                    view.dismiss()
+                }
+                .setCancelable(false)
+                .create()
+        dialog.show()
     }
 
 }
