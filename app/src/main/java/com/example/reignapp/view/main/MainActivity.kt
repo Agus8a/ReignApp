@@ -11,13 +11,12 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         val navHost = NavHostFragment.create(R.navigation.nav_graph)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(
-                    R.id.fragmentContainer,
-                    navHost
+                        R.id.activity_main_container,
+                        navHost
                 )
                 .setPrimaryNavigationFragment(navHost)
                 .commitNow()

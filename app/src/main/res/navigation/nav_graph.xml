@@ -17,5 +17,9 @@
     <fragment
         android:id="@+id/navigation_fragment_detail"
         android:name="com.example.reignapp.view.detail.DetailFragment"
-        tools:layout="@layout/fragment_detail" />
+        tools:layout="@layout/fragment_detail">
+        <action
+            android:id="@+id/action_navigation_fragment_detail_to_navigation_fragment_list"
+            app:destination="@id/navigation_fragment_list" />
+    </fragment>
 </navigation>

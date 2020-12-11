@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -15,6 +16,7 @@ import com.example.reignapp.core.BaseFragment
 import com.example.reignapp.core.BaseOnTriggerItem
 import com.example.reignapp.data.model.Hit
 import com.example.reignapp.util.KEY_ARGS_STORY_URL
+import com.example.reignapp.util.isConnectedToInternet
 import kotlinx.android.synthetic.main.fragment_list.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -22,12 +24,14 @@ class ListFragment : BaseFragment<ListViewModel>(), BaseOnTriggerItem<Hit> {
 
     private lateinit var listAdapter: ListAdapter
     private lateinit var itemTouchHelper: ItemTouchHelper
+    private var swipeRefresh = false
 
     override fun getLayoutResource(): Int = R.layout.fragment_list
 
     override fun initViewModel(): ListViewModel = getViewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setupHomeButton(false)
         val hitsObserver = Observer<List<Hit>> { hits ->
             updateList(hits)
         }
@@ -35,7 +39,6 @@ class ListFragment : BaseFragment<ListViewModel>(), BaseOnTriggerItem<Hit> {
         listAdapter = ListAdapter(requireContext(), this)
         initViews()
         fragment_list_recycler_view.adapter = listAdapter
-
     }
 
     private fun initViews() {
@@ -53,6 +56,7 @@ class ListFragment : BaseFragment<ListViewModel>(), BaseOnTriggerItem<Hit> {
         }
         fragment_list_swipe_refresh.setOnRefreshListener {
             fragment_list_swipe_refresh.isRefreshing = false
+            swipeRefresh = true
             getHits()
         }
         itemTouchHelper = ItemTouchHelper(listAdapter.SwipeToDeleteCallback())
@@ -61,13 +65,17 @@ class ListFragment : BaseFragment<ListViewModel>(), BaseOnTriggerItem<Hit> {
 
     private fun updateList(hits: List<Hit>) {
         listAdapter.setData(hits)
-        fragment_list_progress_bar.visibility = GONE
-        fragment_list_swipe_refresh.visibility = VISIBLE
+        fragment_list_progress_bar?.visibility = GONE
+        fragment_list_swipe_refresh?.visibility = VISIBLE
+        if (!isConnectedToInternet(requireContext()) && swipeRefresh) {
+            toastMsg(getString(R.string.no_internet), Toast.LENGTH_LONG)
+            swipeRefresh = false
+        }
     }
 
     private fun getHits() {
-        fragment_list_progress_bar.visibility = VISIBLE
-        fragment_list_swipe_refresh.visibility = GONE
+        fragment_list_progress_bar?.visibility = VISIBLE
+        fragment_list_swipe_refresh?.visibility = GONE
         viewModel.getHits()
     }
 
@@ -83,10 +91,11 @@ class ListFragment : BaseFragment<ListViewModel>(), BaseOnTriggerItem<Hit> {
         )
     }
 
-    override fun onDeleteItem(listItems: MutableList<Hit>, itemPosition: Int) {
+    override fun onDeleteItem(listItems: List<Hit>, itemPosition: Int) {
         val item = listItems[itemPosition]
-        listItems.removeAt(itemPosition)
-        updateList(listItems)
+        val newList = ArrayList(listItems)
+        newList.removeAt(itemPosition)
+        updateList(newList)
         toastMsg(getString(R.string.post_deleted))
         viewModel.deleteHit(item)
     }

@@ -9,4 +9,6 @@
     <string name="min">min</string>
     <string name="anonymous">Anonymous</string>
     <string name="post_deleted">Post deleted!</string>
+    <string name="no_internet">No Internet</string>
+    <string name="back">Back</string>
 </resources>

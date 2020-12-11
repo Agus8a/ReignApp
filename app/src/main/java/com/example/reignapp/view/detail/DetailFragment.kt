@@ -23,9 +23,8 @@ class DetailFragment : BaseFragment<DetailViewModel>() {
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        setupHomeButton(true)
         urlDestination = receiveSafeString(KEY_ARGS_STORY_URL)
-
         val myWebView: WebView = fragment_detail_web_view
         myWebView.webViewClient = MyWebClient()
         myWebView.settings.javaScriptEnabled = true
