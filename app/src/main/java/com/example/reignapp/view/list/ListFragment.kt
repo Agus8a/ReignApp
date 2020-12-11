@@ -6,7 +6,6 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.core.os.bundleOf
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -110,7 +109,7 @@ class ListFragment : BaseFragment<ListViewModel>(), BaseOnTriggerItem<Hit> {
         newList.removeAt(itemPosition)
         updateList(newList)
         toastMsg(getString(R.string.post_deleted))
-        viewModel.hits = MutableLiveData(newList)
+        viewModel.hits.value = newList
         viewModel.deleteHit(item)
     }
 
