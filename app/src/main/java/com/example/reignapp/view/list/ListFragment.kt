@@ -64,9 +64,16 @@ class ListFragment : BaseFragment<ListViewModel>(), BaseOnTriggerItem<Hit> {
     }
 
     private fun updateList(hits: List<Hit>) {
-        listAdapter.setData(hits)
         fragment_list_progress_bar?.visibility = GONE
         fragment_list_swipe_refresh?.visibility = VISIBLE
+        if (hits.isNullOrEmpty()) {
+            fragment_list_recycler_view?.visibility = GONE
+            fragment_list_view_empty?.visibility = VISIBLE
+        } else {
+            listAdapter.setData(hits)
+            fragment_list_recycler_view?.visibility = VISIBLE
+            fragment_list_view_empty?.visibility = GONE
+        }
         if (!isConnectedToInternet(requireContext()) && swipeRefresh) {
             toastMsg(getString(R.string.no_internet), Toast.LENGTH_LONG)
             swipeRefresh = false

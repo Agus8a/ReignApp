@@ -13,4 +13,6 @@
     <string name="back">Back</string>
     <string name="error_msg">The page couldn\'t be loaded.</string>
     <string name="error">Error</string>
+    <string name="no_posts_title">There aren\'t new posts</string>
+    <string name="no_posts_msg">Swipe down to refresh\nor try again later!</string>
 </resources>
