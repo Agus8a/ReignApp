@@ -17,7 +17,9 @@ import com.example.reignapp.core.BaseOnTriggerItem
 import com.example.reignapp.data.model.Hit
 import com.example.reignapp.util.KEY_ARGS_STORY_URL
 import com.example.reignapp.util.isConnectedToInternet
+import com.example.reignapp.util.isNightModeActive
 import kotlinx.android.synthetic.main.fragment_list.*
+import kotlinx.android.synthetic.main.view_empty.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class ListFragment : BaseFragment<ListViewModel>(), BaseOnTriggerItem<Hit> {
@@ -69,6 +71,9 @@ class ListFragment : BaseFragment<ListViewModel>(), BaseOnTriggerItem<Hit> {
         if (hits.isNullOrEmpty()) {
             fragment_list_recycler_view?.visibility = GONE
             fragment_list_view_empty?.visibility = VISIBLE
+            if (requireContext().isNightModeActive()) {
+                view_empty_text_title.setTextColor(requireContext().getColor(R.color.white))
+            }
         } else {
             listAdapter.setData(hits)
             fragment_list_recycler_view?.visibility = VISIBLE
