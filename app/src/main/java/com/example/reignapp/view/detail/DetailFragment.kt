@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import com.example.reignapp.R
 import com.example.reignapp.core.BaseFragment
 import com.example.reignapp.util.KEY_ARGS_STORY_URL
+import com.example.reignapp.util.isConnectedToInternet
 import com.example.reignapp.util.receiveSafeString
 import kotlinx.android.synthetic.main.fragment_detail.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -26,7 +27,7 @@ class DetailFragment : BaseFragment<DetailViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupHomeButton(true)
         urlDestination = receiveSafeString(KEY_ARGS_STORY_URL)
-        if (urlDestination.isEmpty()) {
+        if (urlDestination.isEmpty() || !isConnectedToInternet(requireContext())) {
             showBackDialog()
         } else {
             val myWebView: WebView = fragment_detail_web_view
