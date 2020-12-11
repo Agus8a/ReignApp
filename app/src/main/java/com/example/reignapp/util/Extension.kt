@@ -1,6 +1,7 @@
 package com.example.reignapp.util
 
 import android.content.Context
+import android.content.res.Configuration
 import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import com.example.reignapp.R
@@ -73,3 +74,7 @@ fun HitEntity.getTitle(): String = if (this.storyTitle.isNullOrEmpty()) {
 } else {
     this.storyTitle
 }
+
+fun Context.isNightModeActive(): Boolean =
+        this.resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES

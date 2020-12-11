@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import com.example.reignapp.R
+import com.example.reignapp.util.isNightModeActive
 import com.example.reignapp.view.main.MainActivity
 
 abstract class BaseFragment<VM : ViewModel> : Fragment() {
@@ -35,9 +36,14 @@ abstract class BaseFragment<VM : ViewModel> : Fragment() {
         if (msg.isNotBlank()) {
             val toast = Toast.makeText(requireContext(), msg, length)
             val view = toast.view
-            view?.background?.setColorFilter(requireContext().getColor(R.color.black), PorterDuff.Mode.SRC_IN)
             val tv = view?.findViewById<TextView>(android.R.id.message)
-            tv?.setTextColor(requireContext().getColor(R.color.white))
+            if (requireContext().isNightModeActive()) {
+                view?.background?.setColorFilter(requireContext().getColor(R.color.white), PorterDuff.Mode.SRC_IN)
+                tv?.setTextColor(requireContext().getColor(R.color.black))
+            } else {
+                view?.background?.setColorFilter(requireContext().getColor(R.color.black), PorterDuff.Mode.SRC_IN)
+                tv?.setTextColor(requireContext().getColor(R.color.white))
+            }
             tv?.textAlignment = View.TEXT_ALIGNMENT_CENTER
             toast.show()
         }

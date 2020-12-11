@@ -15,6 +15,7 @@ import com.example.reignapp.core.BaseOnTriggerItem
 import com.example.reignapp.data.model.Hit
 import com.example.reignapp.util.getAuthorAndDate
 import com.example.reignapp.util.getTitle
+import com.example.reignapp.util.isNightModeActive
 import kotlinx.android.synthetic.main.view_list_item.view.*
 
 
@@ -43,6 +44,9 @@ class ListAdapter(
         val hit = listHits[position]
         holder.title.text = hit.getTitle()
         holder.author.text = hit.getAuthorAndDate(context)
+        if (context.isNightModeActive()) {
+            holder.title.setTextColor(context.getColor(R.color.white))
+        }
     }
 
     override fun getItemCount(): Int =
